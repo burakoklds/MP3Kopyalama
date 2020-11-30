@@ -11,7 +11,7 @@ public class Main {
 	public static void dosyaOku() {
 		
 		try {
-			FileInputStream in = new FileInputStream("Music.mp3");
+			FileInputStream in = new FileInputStream("Music.mp3"); 
 			
 			int oku;
 			
@@ -47,6 +47,52 @@ public class Main {
 	public static void main(String[] args) {
 		
 		dosyaOku();
-		kopyala("music.mp3");
+		
+		Thread thread1 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				kopyala("music2.mp3");
+			}
+			
+		});
+		
+		Thread thread2 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				kopyala("music3.mp3");
+			}
+			
+		});
+		
+		Thread thread3 = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+				kopyala("music4.mp3");
+			}
+			
+		});
+		
+		long baslangýc = System.currentTimeMillis();
+		thread1.start();
+		thread2.start();
+		thread3.start();
+		
+		try {
+			thread1.join();
+			thread2.join();
+			thread3.join();
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
+		long bitis = System.currentTimeMillis();
+		
+		System.out.println("3 dosyanýn kopyalanmasý bu kadar sürdü : " + ((bitis - baslangýc) / 1000) + "saniye");
+		
 	}
 }
